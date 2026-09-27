@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --canvas: #F7FAF9;
+  --white: #FFFFFF;
+  --ink: #071A18;
+  --primary: #0E7C66;
+  --secondary: #19A982;
+  --accent: #8BE3C1;
+  --text: #10201D;
+  --muted: #66736F;
+}
+
+* { box-sizing: border-box; }
+html { background: var(--canvas); scroll-padding-top: 6rem; }
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(139, 227, 193, 0.6); color: var(--ink); }
+
+@layer components {
+  .section-pad { @apply py-24 sm:py-28 lg:py-32; }
+  .section-title { @apply text-[clamp(2.7rem,5vw,5.6rem)] font-semibold leading-[0.94] tracking-[-0.055em] text-ink; }
+  .eyebrow { @apply text-xs font-bold uppercase tracking-[0.17em] text-primary; }
+  .glass-chip { @apply inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/70 px-4 py-2 text-sm font-semibold text-text shadow-sm backdrop-blur; }
+}
+
+.service-card,
+.category-card,
+.testimonial-card {
+  transform-style: preserve-3d;
+  transition: transform 450ms cubic-bezier(.2,.8,.2,1), box-shadow 450ms ease, border-color 450ms ease;
+}
+.service-card:hover { transform: perspective(1000px) rotateX(1.2deg) rotateY(-1.8deg) translateY(-6px); box-shadow: 0 34px 90px rgba(7, 26, 24, 0.13); }
+.category-card:hover { transform: perspective(800px) rotateX(2deg) rotateY(-2deg) translateY(-4px); }
+.testimonial-card:hover { transform: perspective(900px) rotateX(1deg) rotateY(1deg) translateY(-5px); }
+
+.particle-grid {
+  background-image: radial-gradient(circle, rgba(139, 227, 193, 0.22) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(circle at center, black, transparent 78%);
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  translate: -50% -50%;
+  border-radius: 999px;
+  will-change: transform, width, height;
+}
+.cursor-dot { width: 5px; height: 5px; background: var(--primary); }
+.cursor-ring {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid rgba(14, 124, 102, 0.45);
+  color: var(--ink);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  transition: width 180ms ease, height 180ms ease, background 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+.cursor-ring.is-active { width: 48px; height: 48px; background: rgba(139, 227, 193, 0.16); border-color: rgba(14, 124, 102, 0.55); }
+.cursor-ring.is-view { width: 70px; height: 70px; background: rgba(247, 250, 249, 0.85); border-color: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
+
+@media (hover: hover) and (pointer: fine) and (min-width: 1024px) {
+  a, button, [data-cursor] { cursor: none; }
+}
+
+@media (max-width: 767px) {
+  .section-title { letter-spacing: -0.045em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .service-card:hover,
+  .category-card:hover,
+  .testimonial-card:hover { transform: none; }
+}
